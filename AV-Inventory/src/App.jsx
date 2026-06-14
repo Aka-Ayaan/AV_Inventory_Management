@@ -3,13 +3,24 @@ import { supabase } from './utils/supabase'
 import CategoryPanel from './components/CategoryPanel'
 import ItemPanel from './components/ItemPanel'
 import MaintenancePanel from './components/MaintenancePanel'
+import LoginScreen from './components/LoginScreen'
 import './index.css'
 
 export default function App() {
+  const [session, setSession] = useState(undefined)
   const [categories, setCategories] = useState([])
   const [items, setItems] = useState([])
   const [maintenance, setMaintenance] = useState([])
   const [error, setError] = useState('')
+
+  // Auth state
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session))
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
 
   const load = async () => {
     const [cr, ir, mr] = await Promise.all([
@@ -26,7 +37,13 @@ export default function App() {
     setMaintenance(mr.data)
   }
 
-  useEffect(() => { void load() }, [])
+  useEffect(() => {
+    if (session) void load()
+  }, [session])
+
+  const signOut = async () => {
+    await supabase.auth.signOut()
+  }
 
   const stats = useMemo(() => ({
     categories: categories.length,
@@ -35,6 +52,12 @@ export default function App() {
     repair: items.filter(i => i.condition === 'Needs Repair').length,
   }), [categories, items])
 
+  // Still checking session on first load
+  if (session === undefined) return null
+
+  // Not logged in
+  if (!session) return <LoginScreen />
+
   return (
     <div className="shell">
       <div className="topbar">
@@ -42,9 +65,12 @@ export default function App() {
           <span>Community Centre</span>
           <h1>AV Inventory</h1>
         </div>
-        <div className="status-pill">
-          <span className={`status-dot ${error ? 'error' : ''}`} />
-          {error ? 'Connection error' : 'Live'}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className="status-pill">
+            <span className={`status-dot ${error ? 'error' : ''}`} />
+            {error ? 'Connection error' : 'Live'}
+          </div>
+          <button className="btn btn-ghost btn-sm" onClick={signOut}>Sign out</button>
         </div>
       </div>
 

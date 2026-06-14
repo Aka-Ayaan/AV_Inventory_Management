@@ -1,0 +1,425 @@
+/* ============================================================
+   PALETTE — change these to retheme the entire app
+   ============================================================ */
+:root {
+  --color-bg:           #0f1117;
+  --color-surface:      #1a1d27;
+  --color-surface-2:    #222535;
+  --color-border:       #2e3248;
+  --color-accent:       #5b6ef5;
+  --color-accent-dim:   #5b6ef520;
+  --color-text:         #e8eaf2;
+  --color-text-muted:   #7c8099;
+  --color-good:         #3ecf8e;
+  --color-fair:         #f5a623;
+  --color-repair:       #f05252;
+  --color-good-dim:     #3ecf8e18;
+  --color-fair-dim:     #f5a62318;
+  --color-repair-dim:   #f0525218;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.topbar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.topbar-title span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.topbar-title h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  padding: 6px 14px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-good);
+  flex-shrink: 0;
+}
+
+.status-dot.error { background: var(--color-repair); }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.stat-card span {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.stat-card strong {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* ============================================================
+   PANEL
+   ============================================================ */
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.panel-header h2 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.panel-header .count {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+  border-radius: 99px;
+  padding: 2px 10px;
+}
+
+.panel-body { padding: 12px; }
+
+/* ============================================================
+   FORM ELEMENTS
+   ============================================================ */
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+input, select, textarea {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-family: inherit;
+  padding: 8px 12px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--color-accent);
+}
+
+select option { background: var(--color-surface-2); }
+
+textarea { resize: vertical; min-height: 70px; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: 7px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.btn:hover { opacity: 0.85; }
+.btn:active { opacity: 0.7; }
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn-ghost {
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.btn-danger {
+  background: var(--color-repair-dim);
+  color: var(--color-repair);
+  border: 1px solid var(--color-repair);
+}
+
+.btn-sm { padding: 5px 10px; font-size: 11px; }
+
+.btn-appear { animation: slide-down 0.18s cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* ============================================================
+   CATEGORY LIST
+   ============================================================ */
+.category-list { display: flex; flex-direction: column; gap: 4px; }
+
+.category-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: 7px;
+  background: var(--color-surface-2);
+  font-size: 13px;
+}
+
+.category-row span { color: var(--color-text); }
+
+/* ============================================================
+   ITEMS TABLE
+   ============================================================ */
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead tr {
+  border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 10px 12px;
+}
+
+td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+tbody tr { transition: background 0.12s ease; }
+tbody tr:hover { background: var(--color-surface-2); }
+
+/* ============================================================
+   CONDITION BADGE
+   ============================================================ */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 99px;
+}
+
+.badge-good    { background: var(--color-good-dim);   color: var(--color-good);   }
+.badge-fair    { background: var(--color-fair-dim);   color: var(--color-fair);   }
+.badge-repair  { background: var(--color-repair-dim); color: var(--color-repair); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ============================================================
+   MODAL OVERLAY
+   ============================================================ */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #00000088;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 24px;
+  animation: fade-in 0.18s ease;
+}
+
+.modal {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  animation: modal-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h3 { font-size: 15px; font-weight: 600; }
+
+.modal-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+
+.modal-footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 16px 22px;
+  border-top: 1px solid var(--color-border);
+}
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+
+.field label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ============================================================
+   MAINTENANCE LOG
+   ============================================================ */
+.log-list { display: flex; flex-direction: column; gap: 8px; }
+
+.log-entry {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.log-entry .log-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.log-entry .log-item { font-size: 13px; font-weight: 600; }
+.log-entry .log-issue { font-size: 12px; color: var(--color-text-muted); }
+.log-entry .log-meta { font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+.muted { color: var(--color-text-muted); }
+.right-panel { display: flex; flex-direction: column; gap: 16px; }
